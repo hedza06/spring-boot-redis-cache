@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <property name="now" value="now()" dbms="mysql,h2"/>
+    <property name="now" value="current_timestamp" dbms="postgresql"/>
+    <property name="now" value="sysdate" dbms="oracle"/>
+
+    <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql,oracle"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle"/>
+
+    <!-- Create table for example dataset -->
+    <changeSet id="00001" author="hedza06" context="dev, prod">
+        <createTable tableName="insurance">
+            <column name="id" type="int" autoIncrement="${autoIncrement}">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="policyID" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="statecode" type="char(2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="county" type="varchar(64)">
+                <constraints nullable="false" />
+            </column>
+            <column name="eq_site_limit" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="hu_site_limit" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="fl_site_limit" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="fr_site_limit" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="tiv_2011" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="tiv_2012" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="eq_site_deductible" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="hu_site_deductible" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="fl_site_deductible" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="fr_site_deductible" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="point_latitude" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="point_longitude" type="double">
+                <constraints nullable="false" />
+            </column>
+            <column name="line" type="varchar(64)">
+                <constraints nullable="false" />
+            </column>
+            <column name="construction" type="varchar(64)">
+                <constraints nullable="false" />
+            </column>
+            <column name="point_granularity" type="int">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <!-- Load data from CSV -->
+        <loadData encoding="UTF-8"
+                  file="../seeds/FL_insurance_sample.csv"
+                  separator=","
+                  tableName="insurance"
+                  relativeToChangelogFile="true"/>
+    </changeSet>
+</databaseChangeLog>
